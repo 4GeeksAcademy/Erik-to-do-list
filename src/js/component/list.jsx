@@ -16,8 +16,13 @@ const List = () => {
         };
     };
 
+    const deleteAll = (index) => {
+        const newAll = todo.filter((_,i) => i !== index);
+        setTodo(newAll);
+    }
+
     const deleteTask = (index) => {
-        const newTodo = todo.filter((task, i) => i !== index);
+        const newTodo = todo.filter((_,i) => i !== index);
         setTodo(newTodo);
     };
 
@@ -42,6 +47,7 @@ const List = () => {
                 ))}
             </ul>
             <p className="mt-3"> Tareas restantes: {todo.length}</p>
+            <button ></button>
         </div>
     );
 }
