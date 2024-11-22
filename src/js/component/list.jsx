@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 const List = () => {
 
     const [task, setTask] = useState("");
     const [todo, setTodo] = useState([]);
+
+    useEffect (() => {
+        fetch ('https://playground.4geeks.com/todo/users/erik')
+        .then(resp => resp.json())
+        .then(respJson => console.log(respJson))
+    }, [])
+
 
     const handleInputChange = (e) => {
         setTask(e.target.value);
