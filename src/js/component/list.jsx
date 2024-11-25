@@ -52,6 +52,22 @@ const List = () => {
         setTodo(newTodo);
     };
 
+    const deleteTodo = (id) => {
+          fetch (`https://playground.4geeks.com/todo/todos/${id}`, {
+            method: 'DELETE'
+        }).then(() => setTodo(todo.filter(item => item.id !== id)))
+    }
+
+
+    const deleteAllTask = async () => {
+        const deleteAll = todo.map(item =>  
+            fetch (`https://playground.4geeks.com/todo/todos/${item.id}`, {
+            method: 'DELETE'
+        }))
+        console.log(deleteAll)
+        await Promise.all(deleteAll).then(() => setTodo([]))
+    }
+
     return (
 
         <div className="container">
@@ -64,14 +80,16 @@ const List = () => {
                 onKeyPress={handleKeyPress}
             />
             <ul className="task">
-                {todo.map((item, index) => (
+                {todo.map((item) => (
                     <li className="index"
                         key={item.id}>
                         <span>{item.label}</span>
-                        <button className="delete" onClick={() => deleteTask(index)}><i className="fa-solid fa-x" /></button>
+                        <button className="delete" onClick={() => deleteTodo(item.id)}><i className="fa-solid fa-x" /></button>
+                       
                     </li>
                 ))}
             </ul>
+            <button className="but" onClick={() => deleteAllTask()}>delete all</button>
             <p className="mt-3"> Tareas restantes: {todo.length}</p>
         </div>
     );

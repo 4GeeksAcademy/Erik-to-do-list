@@ -48,3 +48,10 @@ body{
     visibility: visible;
     color: red;
 }
+
+.but {
+    width: 200px;
+    color: white;
+    background-color: #333;
+    border-radius: 15px;
+}
