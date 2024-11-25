@@ -8,8 +8,30 @@ const List = () => {
     useEffect (() => {
         fetch ('https://playground.4geeks.com/todo/users/erik')
         .then(resp => resp.json())
-        .then(respJson => console.log(respJson))
+        .then(respJson => {
+            const serverTodos = respJson.todos
+            setTodo(serverTodos)
+        })
     }, [])
+
+
+    const createTodo = async (task) => {
+        await fetch ('https://playground.4geeks.com/todo/todos/erik', {
+            method: 'POST',
+            body: JSON.stringify({
+                "label": task,
+                "is_done": false
+            }),
+            headers: {
+                'Content-Type' : 'application/json'
+            }
+    }).then (resp => resp.json())
+    .then (respJson => {
+        const newTodo = [...todo,respJson]
+        setTodo(newTodo)
+    })
+        
+    }
 
 
     const handleInputChange = (e) => {
@@ -18,7 +40,7 @@ const List = () => {
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter" && task.trim() !== "") {
-            setTodo([...todo, task]);
+            createTodo(e.target.value)
             setTask("");
         };
     };
@@ -42,10 +64,10 @@ const List = () => {
                 onKeyPress={handleKeyPress}
             />
             <ul className="task">
-                {todo.map((task, index) => (
+                {todo.map((item, index) => (
                     <li className="index"
-                        key={index}>
-                        <span>{task}</span>
+                        key={item.id}>
+                        <span>{item.label}</span>
                         <button className="delete" onClick={() => deleteTask(index)}><i className="fa-solid fa-x" /></button>
                     </li>
                 ))}
